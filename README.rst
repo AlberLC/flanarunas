@@ -28,5 +28,5 @@ https://user-images.githubusercontent.com/37489786/151653185-6cce821c-3a94-4a87-
     :target: https://www.python.org/downloads/
     :alt: PyPI - Python Version
 
-.. |download| image:: https://user-images.githubusercontent.com/37489786/151656973-029f8d42-b042-4353-b220-731dc8b7f63d.png
+.. |download| image:: https://user-images.githubusercontent.com/37489786/151657087-0b1d47b5-b3c0-4f74-8b84-f8723b4be302.png
     :alt: download
