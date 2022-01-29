@@ -14,12 +14,12 @@ Download
 
 |download_2|
 
-|download_3|
-
 |
 
 Usage
 -----
+
+|usage_1|
 
 https://user-images.githubusercontent.com/37489786/151653185-6cce821c-3a94-4a87-ad9c-4b187efb33fe.mp4
 
@@ -38,5 +38,5 @@ https://user-images.githubusercontent.com/37489786/151653185-6cce821c-3a94-4a87-
 .. |download_2| image:: https://user-images.githubusercontent.com/37489786/151657159-424e6702-1553-4810-b7fc-339634f267af.png
     :alt: download_2
 
-.. |download_3| image:: https://user-images.githubusercontent.com/37489786/151657237-d11380cb-7fb5-4c0c-b4e0-8752054b7412.png
-    :alt: download_3
+.. |usage_1| image:: https://user-images.githubusercontent.com/37489786/151657237-d11380cb-7fb5-4c0c-b4e0-8752054b7412.png
+    :alt: usage_1
