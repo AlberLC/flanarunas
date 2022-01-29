@@ -1,0 +1,2 @@
+class NoChampion(Exception):
+    pass
