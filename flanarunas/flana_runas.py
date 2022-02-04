@@ -138,6 +138,7 @@ class FlanaRunas:
                     msg_data = json.loads(msg.data)[2]
                     uri = msg_data['uri']
                     data = msg_data['data']
+                    event_type = msg_data['eventType']
 
                     if uri == '/lol-perks/v1/currentpage' and data['isDeletable']:  # to save rune pages
                         try:
@@ -157,7 +158,7 @@ class FlanaRunas:
                             (
                                     ('/lol-champ-select/v1/grid-champions' in uri and data['selectionStatus']['selectedByMe'] and (not self.current_champion or data['id'] != self.current_champion.id))
                                     or
-                                    (uri == '/lol-champ-select/v1/current-champion' and self.current_champion is None)
+                                    (uri == '/lol-champ-select/v1/current-champion' and self.current_champion is None and event_type != 'Delete')
                             )
                     ):  # set rune pages by champion selected
                         try:
