@@ -20,7 +20,6 @@ class FlanaRunas:
         self.http_session: aiohttp.ClientSession | None = None
         self.champions: list[Champion] = []
         self.current_champion: Champion | None = None
-        self.last_champion_id: int | None = None
         self.saved_rune_pages: dict[int, list] = self.load_data()
         self.base_url = ''
         self.is_lol_connected = False
@@ -104,7 +103,7 @@ class FlanaRunas:
 
     def on_current_text_changed(self):
         self.current_champion = self.get_champion_by_name(self.qt_app.combo_search.currentText())
-        self.update_app()
+        self.set_rune_pages()
 
     async def run(self):
         lol_versions = await flanautils.get_request(constants.VERSIONS_ENDPOINT)
@@ -139,7 +138,6 @@ class FlanaRunas:
                     msg_data = json.loads(msg.data)[2]
                     uri = msg_data['uri']
                     data = msg_data['data']
-                    event_type = msg_data['eventType']
 
                     if uri == '/lol-perks/v1/currentpage' and data['isDeletable']:  # to save rune pages
                         try:
@@ -153,23 +151,21 @@ class FlanaRunas:
                             )
                         except NoChampion:
                             continue
-                    elif uri == '/lol-champ-select/v1/current-champion' and event_type == 'Delete':
-                        self.last_champion_id = None
                     elif (
                             self.qt_app.check_box_auto.isChecked()
                             and
                             (
-                                    ('/lol-champ-select/v1/grid-champions' in uri and data['selectionStatus']['selectedByMe'] and data['id'] != self.last_champion_id)
+                                    ('/lol-champ-select/v1/grid-champions' in uri and data['selectionStatus']['selectedByMe'] and (not self.current_champion or data['id'] != self.current_champion.id))
                                     or
-                                    (uri == '/lol-champ-select/v1/current-champion' and self.last_champion_id is None)
+                                    (uri == '/lol-champ-select/v1/current-champion' and self.current_champion is None)
                             )
                     ):  # set rune pages by champion selected
                         try:
                             champion_id = data['id']
                         except TypeError:
                             champion_id = data
-                        self.last_champion_id = champion_id
-                        self.set_rune_pages(self.get_champion_by_id(champion_id))
+                        self.current_champion = self.get_champion_by_id(champion_id)
+                        self.set_rune_pages()
 
     def save_data(self):
         with open('resources/data.json', 'w') as file:
@@ -182,36 +178,33 @@ class FlanaRunas:
                 }
             }, file)
 
-    def set_rune_pages(self, champion: Champion):
+    def set_rune_pages(self):
         async def set_rune_pages_():
             await self.delete_rune_pages()
-            if not champion:
+            if not self.current_champion:
                 self.qt_app.list_rune_pages.clear()
                 return
-
-            self.qt_app.combo_search.blockSignals(True)
-            selected_rune_pages = self.saved_rune_pages.get(champion.id, [])
-            combo_index = self.qt_app.combo_search.findText(champion.name)
+            local_champion = self.current_champion
+            selected_rune_pages = self.saved_rune_pages.get(local_champion.id, [])
+            combo_index = self.qt_app.combo_search.findText(local_champion.name)
             self.qt_app.combo_search.setCurrentIndex(combo_index)
             self.qt_app.list_rune_pages.items_ = selected_rune_pages
-            for selected_rune_page in selected_rune_pages:
-                if self.is_lol_connected:
+            if self.is_lol_connected:
+                for selected_rune_page in selected_rune_pages:
+                    if local_champion != self.current_champion:
+                        break
+
                     async with self.http_session.post(f'https://{self.base_url}/lol-perks/v1/pages', data=selected_rune_page.to_json(), verify_ssl=False):
                         pass
-            self.qt_app.combo_search.blockSignals(False)
-            self.current_champion = None if combo_index == -1 else champion
 
         asyncio.create_task(set_rune_pages_())
-
-    def update_app(self):
-        self.set_rune_pages(self.current_champion)
 
     def update_runes(self):
         # noinspection PyUnresolvedReferences
         rune_pages = [item.data_ for item in self.qt_app.list_rune_pages.items_]
         if rune_pages:
             self.saved_rune_pages[self.current_champion.id] = rune_pages
-            self.update_app()
+            self.set_rune_pages()
         else:
             del self.saved_rune_pages[self.current_champion.id]
             self.qt_app.combo_search.delete_item(self.current_champion.name)
