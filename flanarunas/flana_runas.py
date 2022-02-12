@@ -156,9 +156,9 @@ class FlanaRunas:
                             self.qt_app.check_box_auto.isChecked()
                             and
                             (
-                                    ('/lol-champ-select/v1/grid-champions' in uri and data['selectionStatus']['selectedByMe'] and (not self.current_champion or data['id'] != self.current_champion.id))
+                                    '/lol-champ-select/v1/grid-champions' in uri and data['selectionStatus']['selectedByMe'] and (not self.current_champion or data['id'] != self.current_champion.id)
                                     or
-                                    (uri == '/lol-champ-select/v1/current-champion' and self.current_champion is None and event_type != 'Delete')
+                                    uri == '/lol-champ-select/v1/current-champion' and event_type != 'Delete' and (not self.current_champion or data != self.current_champion.id)
                             )
                     ):  # set rune pages by champion selected
                         try:
