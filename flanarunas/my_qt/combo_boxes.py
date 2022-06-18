@@ -33,6 +33,13 @@ class ComboSearch(QtWidgets.QComboBox):
         self._items.remove(name)
         self.items = self._items
 
+    def event(self, event: QtCore.QEvent) -> bool:
+        if isinstance(event, QtGui.QKeyEvent) and event.key() == QtCore.Qt.Key_Tab:
+            # noinspection PyUnresolvedReferences
+            self.completer.activated.emit(self.completer.currentCompletion())
+
+        return super().event(event)
+
     @property
     def items(self):
         return self._items
