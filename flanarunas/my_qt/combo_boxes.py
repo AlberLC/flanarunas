@@ -25,6 +25,7 @@ class ComboSearch(QtWidgets.QComboBox):
 
         self.lineEdit().textEdited.connect(self._set_completer_items)
         self.lineEdit().returnPressed.disconnect()  # no add new elements at enter
+        self.completer.popup().activated.connect(lambda x: print(1, x))
 
     def add_item(self, item: str):
         self.items += [item]
@@ -34,9 +35,10 @@ class ComboSearch(QtWidgets.QComboBox):
         self.items = self._items
 
     def event(self, event: QtCore.QEvent) -> bool:
-        if isinstance(event, QtGui.QKeyEvent) and event.key() == QtCore.Qt.Key_Tab:
+        if isinstance(event, QtGui.QKeyEvent) and event.key() == QtCore.Qt.Key_Tab and event.type() == QtCore.QEvent.KeyPress:
             # noinspection PyUnresolvedReferences
-            self.completer.activated.emit(self.completer.currentCompletion())
+            self.completer.activated.emit(self.completer.popup().model().data(self.completer.popup().currentIndex()))
+            self.setFocus()
 
         return super().event(event)
 
