@@ -23,6 +23,15 @@ Usage
 
 https://user-images.githubusercontent.com/37489786/151653185-6cce821c-3a94-4a87-ad9c-4b187efb33fe.mp4
 
+|
+
+Data location
+~~~~~~~~~~~~~
+
+|data_1|
+
+|data_2|
+
 
 .. |license| image:: https://img.shields.io/github/license/AlberLC/flanabot?style=flat
     :target: https://github.com/AlberLC/flanabot/blob/main/LICENSE
@@ -40,3 +49,9 @@ https://user-images.githubusercontent.com/37489786/151653185-6cce821c-3a94-4a87-
 
 .. |usage_1| image:: https://user-images.githubusercontent.com/37489786/151657237-d11380cb-7fb5-4c0c-b4e0-8752054b7412.png
     :alt: usage_1
+
+.. |data_1| image:: https://user-images.githubusercontent.com/37489786/176531916-402ff445-5228-4075-b268-12d7a16a4200.png
+    :alt: download_1
+
+.. |data_2| image:: https://user-images.githubusercontent.com/37489786/176532020-a46c56c2-9728-4744-b365-250e3ab1455d.png
+    :alt: download_1
