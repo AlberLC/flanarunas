@@ -50,8 +50,8 @@ Data location
 .. |usage_1| image:: https://user-images.githubusercontent.com/37489786/151657237-d11380cb-7fb5-4c0c-b4e0-8752054b7412.png
     :alt: usage_1
 
-.. |data_1| image:: https://user-images.githubusercontent.com/37489786/176531916-402ff445-5228-4075-b268-12d7a16a4200.png
+.. |data_1| image:: https://user-images.githubusercontent.com/37489786/176535361-a20b3fc6-807a-4c37-b998-ab8d0ddfb3af.png
     :alt: download_1
 
-.. |data_2| image:: https://user-images.githubusercontent.com/37489786/176532020-a46c56c2-9728-4744-b365-250e3ab1455d.png
+.. |data_2| image:: https://user-images.githubusercontent.com/37489786/176535369-be8f84b1-9d71-46e7-911e-32aab77e6a4b.png
     :alt: download_1
