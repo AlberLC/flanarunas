@@ -185,10 +185,13 @@ class FlanaRunas:
             if not self.current_champion:
                 self.qt_app.list_rune_pages.clear()
                 return
+
             local_champion = self.current_champion
             selected_rune_pages = self.saved_rune_pages.get(local_champion.id, [])
             combo_index = self.qt_app.combo_search.findText(local_champion.name)
+            self.qt_app.combo_search.blockSignals(True)
             self.qt_app.combo_search.setCurrentIndex(combo_index)
+            self.qt_app.combo_search.blockSignals(False)
             self.qt_app.list_rune_pages.items_ = selected_rune_pages
             if self.is_lol_connected:
                 for selected_rune_page in selected_rune_pages:
