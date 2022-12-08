@@ -23,8 +23,7 @@ class RunePage(FlanaBase):
 
     @staticmethod
     def _format_name(rune_page_name: str) -> str:
-        rune_page_name = rune_page_name.lower()
-        if rune_page_name.startswith('f ') or rune_page_name.startswith('f:'):
+        if rune_page_name.lower().startswith('f ') or rune_page_name.lower().startswith('f:'):
             rune_page_name = rune_page_name[2:].strip()
 
         return f'F: {rune_page_name}'
