@@ -21,6 +21,14 @@ class RunePage(FlanaBase):
         self.subStyleId = subStyleId
         self.selectedPerkIds = selectedPerkIds or []
 
+    @staticmethod
+    def _format_name(rune_page_name: str) -> str:
+        rune_page_name = rune_page_name.lower()
+        if rune_page_name.startswith('f ') or rune_page_name.startswith('f:'):
+            rune_page_name = rune_page_name[2:].strip()
+
+        return f'F: {rune_page_name}'
+
     def _json_repr(self) -> Any:
         return {k.strip('_'): v for k, v in vars(self).items()}
 
@@ -31,15 +39,3 @@ class RunePage(FlanaBase):
     @name.setter
     def name(self, text: str):
         self._name = self._format_name(text)
-
-    @staticmethod
-    def _format_name(rune_page_name: str) -> str:
-        rune_page_name = rune_page_name.strip()
-        if rune_page_name.startswith('f ') or rune_page_name.startswith('f: '):
-            rune_page_name = f'F{rune_page_name[1:]}'
-        if rune_page_name.startswith('F '):
-            rune_page_name = f'F:{rune_page_name[1:]}'
-        if not rune_page_name.startswith('F: '):
-            rune_page_name = f'F: {rune_page_name}'
-
-        return rune_page_name
