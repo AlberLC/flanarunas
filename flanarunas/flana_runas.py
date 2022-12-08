@@ -64,9 +64,9 @@ class FlanaRunas:
         for word in rune_page.name.split():
             best_match = ScoreMatch(None, 0)
             for champion in self.champions:
-                match_ratio = jellyfish.jaro_winkler_similarity(flanautils.remove_accents(word.lower()), flanautils.remove_accents(champion.name.lower()))
-                if match_ratio >= constants.MIN_RATIO and match_ratio > best_match.score:
-                    best_match = ScoreMatch(champion, match_ratio)
+                match_score = jellyfish.jaro_winkler_similarity(flanautils.remove_accents(word.lower()), flanautils.remove_accents(champion.name.lower()))
+                if match_score >= constants.MIN_SCORE and match_score > best_match.score:
+                    best_match = ScoreMatch(champion, match_score)
 
             if best_match.element is not None:
                 return best_match.element
