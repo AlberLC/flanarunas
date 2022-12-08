@@ -4,7 +4,7 @@ import json
 import aiohttp
 import flanautils
 import jellyfish
-from flanautils import RatioMatch
+from flanautils import ScoreMatch
 
 import constants
 import process_utils
@@ -62,11 +62,11 @@ class FlanaRunas:
 
     def get_page_rune_champion(self, rune_page: RunePage) -> Champion:
         for word in rune_page.name.split():
-            best_match = RatioMatch(None, 0)
+            best_match = ScoreMatch(None, 0)
             for champion in self.champions:
                 match_ratio = jellyfish.jaro_winkler_similarity(flanautils.remove_accents(word.lower()), flanautils.remove_accents(champion.name.lower()))
                 if match_ratio >= constants.MIN_RATIO and match_ratio > best_match.ratio:
-                    best_match = RatioMatch(champion, match_ratio)
+                    best_match = ScoreMatch(champion, match_ratio)
 
             if best_match.element is not None:
                 return best_match.element
