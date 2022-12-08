@@ -107,7 +107,8 @@ class MyCentralWidget(QtWidgets.QWidget):
     widget_rune_pages: QtWidgets.QWidget
     label_rune_pages: QtWidgets.QLabel
     button_show: QtWidgets.QPushButton
-    check_box_auto: QtWidgets.QCheckBox
+    check_box_auto_selection: QtWidgets.QCheckBox
+    check_box_recommended_pages: QtWidgets.QCheckBox
     combo_search: ComboSearch
     list_rune_pages: ListRunePages
 
@@ -127,7 +128,8 @@ class MyCentralWidget(QtWidgets.QWidget):
         # noinspection PyUnresolvedReferences
         self.button_show.clicked.connect(self.window().resize_, QtCore.Qt.QueuedConnection)
 
-        self.check_box_auto.stateChanged.connect(controller.save_data)
+        self.check_box_auto_selection.stateChanged.connect(controller.save_data)
+        self.check_box_recommended_pages.stateChanged.connect(controller.save_data)
 
         self.combo_search.currentTextChanged.connect(controller.on_current_text_changed)
 

@@ -82,18 +82,22 @@ class FlanaRunas:
         with open('resources/data.json', 'r+') as file:
             raw_dict = json.load(file)
 
-            self.qt_app.check_box_auto.blockSignals(True)
+            self.qt_app.check_box_auto_selection.blockSignals(True)
+            self.qt_app.check_box_recommended_pages.blockSignals(True)
             try:
-                checked = raw_dict['config']['auto']
+                self.qt_app.check_box_auto_selection.setChecked(raw_dict['config']['auto_selection'])
             except KeyError:
-                checked = True
+                pass
             try:
-                list_visible = raw_dict['config']['list_visible']
+                self.qt_app.check_box_recommended_pages.setChecked(raw_dict['config']['recommended_pages'])
             except KeyError:
-                list_visible = False
-            self.qt_app.check_box_auto.setChecked(checked)
-            self.qt_app.set_list_rune_pages_visibility(list_visible)
-            self.qt_app.check_box_auto.blockSignals(False)
+                pass
+            self.qt_app.check_box_auto_selection.blockSignals(False)
+            self.qt_app.check_box_recommended_pages.blockSignals(False)
+            try:
+                self.qt_app.set_list_rune_pages_visibility(raw_dict['config']['list_visible'])
+            except KeyError:
+                pass
 
             try:
                 rune_pages_data = raw_dict['rune_pages']
@@ -141,6 +145,9 @@ class FlanaRunas:
                     event_type = msg_data['eventType']
 
                     if uri == '/lol-perks/v1/currentpage' and data['isDeletable']:  # to save rune pages
+                        if data['isTemporary'] and not self.qt_app.check_box_recommended_pages.isChecked():
+                            continue
+
                         try:
                             self.add_rune_page(
                                 RunePage(data['isActive'],
@@ -153,7 +160,7 @@ class FlanaRunas:
                         except NoChampion:
                             continue
                     elif (
-                            self.qt_app.check_box_auto.isChecked()
+                            self.qt_app.check_box_auto_selection.isChecked()
                             and
                             (
                                     '/lol-champ-select/v1/grid-champions' in uri and data['selectionStatus']['selectedByMe'] and (not self.current_champion or data['id'] != self.current_champion.id)
@@ -174,7 +181,8 @@ class FlanaRunas:
             json.dump({
                 'rune_pages': rune_pages_data,
                 'config': {
-                    'auto': self.qt_app.check_box_auto.isChecked(),
+                    'auto_selection': self.qt_app.check_box_auto_selection.isChecked(),
+                    'recommended_pages': self.qt_app.check_box_recommended_pages.isChecked(),
                     'list_visible': self.qt_app.list_rune_pages.isVisible()
                 }
             }, file)

@@ -20,8 +20,12 @@ class MyQtApp(QtWidgets.QApplication):
         self.window.central_widget.change_list_rune_pages_visibility()
 
     @property
-    def check_box_auto(self) -> QtWidgets.QCheckBox:
-        return self.window.central_widget.check_box_auto
+    def check_box_auto_selection(self) -> QtWidgets.QCheckBox:
+        return self.window.central_widget.check_box_auto_selection
+
+    @property
+    def check_box_recommended_pages(self) -> QtWidgets.QCheckBox:
+        return self.window.central_widget.check_box_recommended_pages
 
     @property
     def combo_search(self) -> ComboSearch:
