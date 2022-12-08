@@ -65,7 +65,7 @@ class FlanaRunas:
             best_match = ScoreMatch(None, 0)
             for champion in self.champions:
                 match_ratio = jellyfish.jaro_winkler_similarity(flanautils.remove_accents(word.lower()), flanautils.remove_accents(champion.name.lower()))
-                if match_ratio >= constants.MIN_RATIO and match_ratio > best_match.ratio:
+                if match_ratio >= constants.MIN_RATIO and match_ratio > best_match.score:
                     best_match = ScoreMatch(champion, match_ratio)
 
             if best_match.element is not None:
